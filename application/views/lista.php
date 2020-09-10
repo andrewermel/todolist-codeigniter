@@ -11,8 +11,9 @@
         <h1>Lista de Compras</h1>
         <div>
             <?php foreach($Items as $item) {?>
-                <?=$item->nome?>
+                <?=$item->nome?><?=$item->done?>
                 <a href=del-rota?id=<?=$item->id?>>x</a>
+                <a href=done-rota?id=<?=$item->id?>>v</a>
                 <br>
             <?php }?>
         </div>

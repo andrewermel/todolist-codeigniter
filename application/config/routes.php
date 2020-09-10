@@ -7,6 +7,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['Login']='Login';
 $route['Add-rota']='AddController/addItem';
 $route['del-rota']='DelController/delItem';
+$route['done-rota'] = 'DoneController/doneItem';
 
 
 
