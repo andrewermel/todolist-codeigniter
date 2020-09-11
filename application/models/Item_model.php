@@ -3,8 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Item_model extends CI_Controller{ 
 
-Var $nome = '';
-var $done = false;
 
     public function addItems($nome){
         
@@ -46,7 +44,20 @@ var $done = false;
 
     
        $this->db->where('id',$pronto);
+
+       
        $this->db->update('items', ['done' => true]);
+
+    }
+    public function undoneItem($pronto){
+
+        $this->load->database();
+
+    
+       $this->db->where('id',$pronto);
+
+       
+       $this->db->update('items', ['done' => false]);
 
     }
 

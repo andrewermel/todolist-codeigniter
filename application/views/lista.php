@@ -13,7 +13,8 @@
             <?php foreach($Items as $item) {?>
                 <?=$item->nome?><?=$item->done?>
                 <a href=del-rota?id=<?=$item->id?>>x</a>
-                <a href=done-rota?id=<?=$item->id?>>v</a>
+                <a href=done-rota?id=<?=$item->id?>&done=<?=$item->done?>>v</a>
+                
                 <br>
             <?php }?>
         </div>
