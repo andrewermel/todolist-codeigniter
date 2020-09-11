@@ -8,23 +8,26 @@
 </head>
 <body >
     <div class ='container'  >
-        <h1>Lista de Compras</h1>
+        <h1 class="text-center">Lista de Compras</h1>
         <div class="list-group">
             <?php foreach($Items as $item) {?>
-                <div class="list-group-item <?php If($item->done == 1){echo 'active';}?>" >                                          
+                <div class="list-group-item <?php If($item->done == 1){echo 'list-group-item-action list-group-item-danger';}?>" >                                          
                     <a href="del-rota?id=<?=$item->id?>" class="close">x</a>
-                    <a href="done-rota?id=<?=$item->id?>&done=<?=$item->done?>" <?php if($item->done==1){echo  'class="text-white"'  ;}else{echo 'class= "text-dark"'  ;}?>> <?=$item->nome?> </a>
+                    <a href="done-rota?id=<?=$item->id?>&done=<?=$item->done?>"class="text-reset"> <?=$item->nome?> </a>
                 </div> 
               
             <?php }?>
         </div>
 
         <form  action="Add-rota" method="GET">
-            <label>Item</label>
+            
+            <label class="text-uppercase my-3 " >Novo Item </label>
+           
             <div>
                 <input class="form-control" name="nomeItem" type="text">
             </div>
-            <button class="btn btn-primary" >enviar</button>
+           
+            <button class="btn btn-primary mt-3 " >enviar</button>
 
         
         </form>
