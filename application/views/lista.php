@@ -13,7 +13,7 @@
             <?php foreach($Items as $item) {?>
                 <div class="list-group-item <?php If($item->done == 1){echo 'active';}?>" >                                          
                     <a href="del-rota?id=<?=$item->id?>" class="close">x</a>
-                    <a href="done-rota?id=<?=$item->id?>&done=<?=$item->done?>"class="text-dark"><?=$item->nome?> </a>
+                    <a href="done-rota?id=<?=$item->id?>&done=<?=$item->done?>" <?php if($item->done==1){echo  'class="text-white"'  ;}else{echo 'class= "text-dark"'  ;}?>> <?=$item->nome?> </a>
                 </div> 
               
             <?php }?>
