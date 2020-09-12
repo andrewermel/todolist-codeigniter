@@ -6,7 +6,9 @@ class AddController extends CI_Controller {
       
         
         public function addItem(){
-                $nome= $_GET['nomeItem'];
+               
+              
+                $nome= $this->input->get('nomeItem');
 
                 if(empty($nome)){
                         echo "nome do item não pode ser em branco";
@@ -17,15 +19,24 @@ class AddController extends CI_Controller {
 
                         }else {
                                 $this->load->model('Item_model');
-                                $this->Item_model->addItems($nome);
-                                header('location:/');
+                                $conseguiusalvarnobanco = $this->Item_model->addItems($nome);
+
+                                if($conseguiusalvarnobanco){
+                                
+                                        header('location:/');
+
+                                }else{
+                                        echo 'Items duplicados';
+                                        echo '<a href="/" > voltar </a>';
+                                }
+                               
                         }
 
                 
 
             
 
-               
+                        
 
         }
 

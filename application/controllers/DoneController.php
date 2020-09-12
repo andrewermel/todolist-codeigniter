@@ -5,8 +5,8 @@ class DoneController extends CI_Controller {
 
     Public function doneItem(){
 
-        $pronto = $_GET['id'];
-        $done=$_GET['done'];
+        $pronto = $this->input->get('id');
+        $done=$this->input->get('done');
 
         If($done==0){
             $this->load->model('Item_model');
@@ -14,7 +14,7 @@ class DoneController extends CI_Controller {
 
         }else{
             $this->load->model('Item_model');
-        $this->Item_model->undoneItem($pronto);
+            $this->Item_model->undoneItem($pronto);
         }
 
 

@@ -7,14 +7,39 @@ class Item_model extends CI_Controller{
     public function addItems($nome){
         
         $this->load->database();
+        $this->db->db_debug = false;
         
         
         $novoitem = [];
         $novoitem['nome']=$nome;
         $novoitem['done']=false;
 
+       
+       //todo: tentei usar o try/catch mas o codeigniter nao cai no catch nunca! voltarei pra resolver mais tarde.
 
-        $this->db->insert('items',$novoitem);
+       /* try{
+            $this->db->insert('items',$novoitem);
+            return true;
+        }catch(Exception $error){
+            return false;
+        }*/
+       
+        $query= $this->db->get_where('items',['nome'=>$nome]);
+        $item_existente = $query->num_rows();
+
+        if($item_existente){
+            $conseguiusalvarnobanco = false;
+            return $conseguiusalvarnobanco;
+
+        }else{
+
+            $this->db->insert('items',$novoitem);
+            $conseguiusalvarnobanco = true;
+            return $conseguiusalvarnobanco;
+        }
+
+
+        
 
     }
 
