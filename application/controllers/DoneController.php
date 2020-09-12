@@ -3,38 +3,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class DoneController extends CI_Controller {
 
-    Public function doneItem(){
+	public function __construct(){
+		parent::__construct();
+		$this->load->model('Item_model');
+	}
 
-        $pronto = $this->input->get('id');
-        $done=$this->input->get('done');
+	Public function doneItem(){
+		$id = $this->input->get('id');
+		$done = $this->input->get('done');
 
-        If($done==0){
-            $this->load->model('Item_model');
-            $this->Item_model->doneItem($pronto);
+		if(!$done) {
+			$this->Item_model->doneItem($id);
 
-        }else{
-            $this->load->model('Item_model');
-            $this->Item_model->undoneItem($pronto);
-        }
-
-
-        header('location:/');
-
-        
-
-
-
-    }
-    
-    
-
-      
-        
-      
-
-
-
-
-
-    
+		} else {
+			$this->Item_model->undoneItem($id);
+		}
+		header('location:/');
+	}
 }

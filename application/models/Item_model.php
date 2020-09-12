@@ -1,93 +1,105 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Item_model extends CI_Controller{ 
+class Item_model extends CI_Controller{
 
+	public function __construct(){
+		parent::__construct();
 
-    public function addItems($nome){
-        
-        $this->load->database();
-        $this->db->db_debug = false;
-        
-        
-        $novoitem = [];
-        $novoitem['nome']=$nome;
-        $novoitem['done']=false;
+		$this->load->database();
+		$this->db->db_debug = false;
+	}
 
-       
-       //todo: tentei usar o try/catch mas o codeigniter nao cai no catch nunca! voltarei pra resolver mais tarde.
+	public function addItems($nome){
+		//todo: tentei usar o try/catch mas o codeigniter nao cai no catch nunca! voltarei pra resolver mais tarde.
 
-       /* try{
-            $this->db->insert('items',$novoitem);
-            return true;
-        }catch(Exception $error){
-            return false;
-        }*/
-       
-        $query= $this->db->get_where('items',['nome'=>$nome]);
-        $item_existente = $query->num_rows();
+		/* try{
+			 $this->db->insert('items',$novoitem);
+			 return true;
+		 }catch(Exception $error){
+			 return false;
+		 }*/
 
-        if($item_existente){
-            $conseguiusalvarnobanco = false;
-            return $conseguiusalvarnobanco;
+		$resposta = false;
 
-        }else{
+		//inicia transação
+		$this->db->trans_begin();
 
-            $this->db->insert('items',$novoitem);
-            $conseguiusalvarnobanco = true;
-            return $conseguiusalvarnobanco;
-        }
+		$pegaItem = $this->db->get_where('items',array('nome' => $nome))->result();
 
+		if(!$pegaItem) {
+			$this->db->insert('items', array('nome' => $nome, 'done' => false));
 
-        
+			//caso de erro no cadastro é desfeito as alteracoes e enviado resposta false
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				$resposta = false;
+			} else {
+				//caso não de erro, é efetuado as modificacoes do banco de dados e enviado resposta true
+				$this->db->trans_commit();
+				$resposta = true;
+			}
+		}
+		return $resposta;
+	}
 
-    }
+	public function buscaitems(){
+		$query = $this->db->get('items');
+		return $query->result();
+	}
 
-    public function buscaitems(){
-        $this->load->database();
+	public function delItem($id){
+		//inicia transação
+		$this->db->trans_begin();
 
-        $query = $this->db->get('items');
-        return $query->result();
+		$this->db->delete('items', array('id' => $id));
 
+		//caso de erro no cadastro é desfeito as alteracoes e enviado resposta false
+		if($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			$resposta = false;
+		} else {
+			//caso não de erro, é efetuado as modificacoes do banco de dados e enviado resposta true
+			$this->db->trans_commit();
+			$resposta = true;
+		}
+		return $resposta;
+	}
 
-    }
+	public function doneItem($id){
+		//inicia transação
+		$this->db->trans_begin();
 
-    public function delItem($delete){
+		$this->db->where('id', $id);
+		$this->db->update('items', array('done' => true));
 
-        $this->load->database();
-        $id=$delete;
-        $this->db->delete('items',['id'=>$delete]);
+		//caso de erro no cadastro é desfeito as alteracoes e enviado resposta false
+		if($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			$resposta = false;
+		} else {
+			//caso não de erro, é efetuado as modificacoes do banco de dados e enviado resposta true
+			$this->db->trans_commit();
+			$resposta = true;
+		}
+		return $resposta;
+	}
+	public function undoneItem($id){
+		//inicia transação
+		$this->db->trans_begin();
 
+		$this->db->where('id',$id);
+		$this->db->update('items', array('done' => false));
 
-
-
-    }
-
-    public function doneItem($pronto){
-
-        $this->load->database();
-
-    
-       $this->db->where('id',$pronto);
-
-       
-       $this->db->update('items', ['done' => true]);
-
-    }
-    public function undoneItem($pronto){
-
-        $this->load->database();
-
-    
-       $this->db->where('id',$pronto);
-
-       
-       $this->db->update('items', ['done' => false]);
-
-    }
-
-
-
-
-
+		//caso de erro no cadastro é desfeito as alteracoes e enviado resposta false
+		if($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			$resposta = false;
+		} else {
+			//caso não de erro, é efetuado as modificacoes do banco de dados e enviado resposta true
+			$this->db->trans_commit();
+			$resposta = true;
+		}
+		return $resposta;
+	}
 }
