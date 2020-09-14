@@ -3,19 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Lista extends CI_Controller {
 
-	public function index(){
-
+	public function __construct(){
+		parent::__construct();
 		$this->load->model('Item_model');
-
-		$items = $this->Item_model->buscaitems();
-	
-		$this->load->view('lista',['Items'=>$items]);
-
-	
 	}
 
+	public function index(){
+		$items = $this->Item_model->buscaitems();
 
-
-	
+		$this->load->view('lista', array('Items' => $items));
+	}
 }
 

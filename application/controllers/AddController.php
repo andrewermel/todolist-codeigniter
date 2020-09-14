@@ -3,42 +3,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class AddController extends CI_Controller {
 
-      
-        
-        public function addItem(){
-               
-              
-                $nome= $this->input->get('nomeItem');
+	public function __construct(){
+		parent::__construct();
+		$this->load->model('Item_model');
+	}
 
-                if(empty($nome)){
-                        echo "nome do item não pode ser em branco";
-                        echo '<a href="/" > voltar </a>';
-                        }elseif(is_numeric($nome)){
-                                echo "nome do item não pode ser um numero";
-                                echo '<a href="/" > voltar </a>';
+	public function addItem(){
+		$nome= $this->input->get('nomeItem');
 
-                        }else {
-                                $this->load->model('Item_model');
-                                $conseguiusalvarnobanco = $this->Item_model->addItems($nome);
+		if(empty($nome)) {
+			echo "nome do item não pode ser em branco";
+			echo '<a href="/" > voltar </a>';
+		} elseif(is_numeric($nome)) {
+			echo "nome do item não pode ser um numero";
+			echo '<a href="/" > voltar </a>';
 
-                                if($conseguiusalvarnobanco){
-                                
-                                        header('location:/');
+		} else {
+			$conseguiuSalvarNoBanco = $this->Item_model->addItems($nome);
 
-                                }else{
-                                        echo 'Items duplicados';
-                                        echo '<a href="/" > voltar </a>';
-                                }
-                               
-                        }
-
-                
-
-            
-
-                        
-
-        }
-
-
+			if($conseguiuSalvarNoBanco){
+				header('location:/');
+			}else{
+				echo 'Items duplicados';
+				echo '<a href="/" > voltar </a>';
+			}
+		}
+	}
 }

@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+
+  app_andrew:
+    build: .
+    container_name: app_andrew
+    entrypoint: dockerize -template ./.docker/app/.env:.env -wait tcp://db_andrew:3306 -timeout 40s ./.docker/entrypoint.sh
+    environment: 
+      - DB_HOST=db_andrew
+      - DB_DATABASE=desafiotodolist
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+    volumes: 
+      - .:/var/www
+    networks: 
+      - app-network-andrew
+    depends_on: 
+      - db_andrew
+
+  nginx_andrew:
+    build: .docker/nginx
+    container_name: nginx_andrew
+    restart: always
+    tty: true
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+    networks: 
+      - app-network-andrew
+    depends_on: 
+      - app_andrew
+
+  db_andrew:
+    build: .docker/mysql
+    command: --innodb-use-native-aio=0
+    container_name: db_andrew
+    restart: always
+    tty: true
+    ports: 
+      - "3306:3306"
+    volumes: 
+      - ./.docker/dbdata:/var/lib/mysql
+    environment: 
+      - MYSQL_DATABASE=codeigniter
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+    networks: 
+      - app-network-andrew
+
+networks: 
+  app-network-andrew:
+    driver: bridge
