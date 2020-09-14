@@ -8,7 +8,7 @@
 </head>
 <body >
     <div class ='container'  >
-        <h1 class="text-center">Lista de Compras</h1>
+        <ins class="text-center">Lista de Compras</ins>
         <div class="list-group">
             <?php foreach($Items as $item) {?>
                 <div class="list-group-item <?php If($item->done == 1){echo 'list-group-item-action list-group-item-danger';}?>" >                                          
