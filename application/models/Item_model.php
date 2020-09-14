@@ -1,20 +1,17 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Item_model extends CI_Controller{ 
-
-
-    public function addItems($nome){
-        
+class Item_model extends CI_Controller{
+    public function __construct(){
+        parent::__construct();
         $this->load->database();
-        $this->db->db_debug = false;
-        
-        
+    } 
+
+    public function addItems($nome){ 
         $novoitem = [];
         $novoitem['nome']=$nome;
         $novoitem['done']=false;
 
-       
        //todo: tentei usar o try/catch mas o codeigniter nao cai no catch nunca! voltarei pra resolver mais tarde.
 
        /* try{
@@ -30,60 +27,31 @@ class Item_model extends CI_Controller{
         if($item_existente){
             $conseguiusalvarnobanco = false;
             return $conseguiusalvarnobanco;
-
-        }else{
-
+        }
+        else{
             $this->db->insert('items',$novoitem);
             $conseguiusalvarnobanco = true;
             return $conseguiusalvarnobanco;
         }
-
-
-        
-
     }
 
     public function buscaitems(){
-        $this->load->database();
-
         $query = $this->db->get('items');
         return $query->result();
-
-
     }
 
-    public function delItem($delete){
-
-        $this->load->database();
-        $id=$delete;
-        $this->db->delete('items',['id'=>$delete]);
-
-
-
-
+    public function delItem($id){
+        $this->db->delete('items',['id'=>$id]);
     }
 
-    public function doneItem($pronto){
-
-        $this->load->database();
-
-    
-       $this->db->where('id',$pronto);
-
-       
-       $this->db->update('items', ['done' => true]);
-
+    public function doneItem($id){
+        $this->db->where('id',$id);
+        $this->db->update('items', ['done' => true]);
     }
-    public function undoneItem($pronto){
 
-        $this->load->database();
-
-    
-       $this->db->where('id',$pronto);
-
-       
-       $this->db->update('items', ['done' => false]);
-
+    public function undoneItem($id){
+        $this->db->where('id',$id);
+        $this->db->update('items', ['done' => false]);
     }
 
 
