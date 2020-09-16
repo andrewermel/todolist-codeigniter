@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
 </head>
 <body >
     <div class ='container'  >
-        <ins class="text-center">Lista de Compras</ins>
+        <h1 class="text-center">Lista de Compras</h1>
         <div class="list-group">
             <?php foreach($Items as $item) {?>
                 <div class="list-group-item <?php If($item->done == 1){echo 'list-group-item-action list-group-item-danger';}?>" >                                          
@@ -32,7 +32,25 @@
         
         </form>
 
+        <div class="bg-secondary text-light mb-3 p-2">
+            <h2>Informações sobre a empresa</h2>
+            <div>
+                <b>Nome:</b> <?=$empresa['nome']?>
+            </div>
+            <div>
+                <b>CNPJ:</b> <?=$empresa['cnpj']?>
+            </div>
+        </div>
 
+        <div class="bg-secondary text-light p-2">
+            <h2>Informações sobre o usuário</h2>
+            <div>
+                <b>Nome:</b> <?=$usuario['nome']?>
+            </div>
+            <div>
+                <b>CPF:</b> <?=$usuario['cpf']?>
+            </div>
+        </div>
     </div>
 </body>
 </html>

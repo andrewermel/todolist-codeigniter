@@ -14,12 +14,13 @@ class Item_model extends CI_Controller{
 
        //todo: tentei usar o try/catch mas o codeigniter nao cai no catch nunca! voltarei pra resolver mais tarde.
 
-       /* try{
-            $this->db->insert('items',$novoitem);
-            return true;
-        }catch(Exception $error){
-            return false;
-        }*/
+    //    try{
+    //         $this->db->insert('items',$novoitem);
+    //         return true;
+    //     }
+	// 	catch(Exception $e){
+    //         return false;
+    //     }
        
         $query= $this->db->get_where('items',['nome'=>$nome]);
         $item_existente = $query->num_rows();
@@ -44,18 +45,8 @@ class Item_model extends CI_Controller{
         $this->db->delete('items',['id'=>$id]);
     }
 
-    public function doneItem($id){
+    public function doneItem($id,$done){
         $this->db->where('id',$id);
-        $this->db->update('items', ['done' => true]);
+        $this->db->update('items', ['done' => $done]);
     }
-
-    public function undoneItem($id){
-        $this->db->where('id',$id);
-        $this->db->update('items', ['done' => false]);
-    }
-
-
-
-
-
 }
